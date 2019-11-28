@@ -1,17 +1,13 @@
 const express = require("express");
 const router = express.Router();
-
+const Office = require("../../model/Office");
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  res.json({
-    success: "true",
-    message: "전체 조회 성공",
-    data: [
-      { officeIdx: 1, officeNum: 100, numOfBicycle: 7 },
-      { officeIdx: 2, officeNum: 101, numOfBicycle: 9 },
-      { officeIdx: 3, officeNum: 102, numOfBicycle: 2 }
-    ]
-  });
+  Office.ReadAll()
+    .then(result => {
+      res.status(result.status).json(result);
+    })
+    .catch(err => res.status(result.status).json(err));
 });
 
 module.exports = router;
